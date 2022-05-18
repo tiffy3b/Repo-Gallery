@@ -1,6 +1,7 @@
 //profile info
 const itsMe = document.querySelector(".overview");
 const username = "tiffy3b";
+const repoList = document.querySelector(".repo-list");
 
 const myProfile = async function () {
     const response = await fetch(`https://api.github.com/users/${username}`);
@@ -24,4 +25,18 @@ const api = function (profile){
     <p><strong>Number of public repos:</strong> ${profile.public_repos}</p>
     </div>`;
     itsMe.append(div);
+    fetchRepoList();
 };
+const fetchRepoList = async function (){
+    const repo = await fetch (`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    const list = await repo.json();
+    listClasses(list);
+};
+const listClasses = function (repos) {
+    for (const repo of repos) {
+        const listRepo = document.createElement("li");
+        listRepo.classList.add("repo");
+        listRepo.innerHTML = `<h3>${repo.name}</h3>`;
+        repoList.append(listRepo);
+    }
+}
