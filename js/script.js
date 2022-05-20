@@ -3,7 +3,7 @@ const itsMe = document.querySelector(".overview");
 const username = "tiffy3b";
 const repoList = document.querySelector(".repo-list");
 const repoInfo = document.querySelector(".repos");
-const singleRepoData = document.querySelectorAll(".repo-data");
+const singleRepoData = document.querySelector(".repo-data");
 
 const myProfile = async function () {
     const response = await fetch(`https://api.github.com/users/${username}`);
@@ -59,9 +59,9 @@ const singleRepoInfo = async function (repoName){
         for (const language in languageData){
         languages.push(language);}
 
-        specificRepo(repoInfo, languages);
+        specificRepo(info, languages);
 };
-const specificRepo = function (repoInfo, languages){
+const specificRepo = function (info, languages){
     singleRepoData.innerHTML = "";
     singleRepoData.classList.remove("hide");
     repoInfo.classList.add("hide");
