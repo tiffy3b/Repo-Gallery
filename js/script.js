@@ -4,6 +4,8 @@ const username = "tiffy3b";
 const repoList = document.querySelector(".repo-list");
 const repoInfo = document.querySelector(".repos");
 const singleRepoData = document.querySelector(".repo-data");
+const viewRepo = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 const myProfile = async function () {
     const response = await fetch(`https://api.github.com/users/${username}`);
@@ -35,6 +37,7 @@ const fetchRepoList = async function (){
     listClasses(list);
 };
 const listClasses = function (repos) {
+    filterInput.classList.remove("hide");
     for (const repo of repos) {
         const listRepo = document.createElement("li");
         listRepo.classList.add("repo");
@@ -65,6 +68,7 @@ const specificRepo = function (info, languages){
     singleRepoData.innerHTML = "";
     singleRepoData.classList.remove("hide");
     repoInfo.classList.add("hide");
+    viewRepo.classList.remove("hide");
     const div = document.createElement("div");
     div.innerHTML = `
         <h3>Name: ${info.name}</h3>
@@ -75,3 +79,22 @@ const specificRepo = function (info, languages){
 
     singleRepoData.append(div);
 };
+viewRepo.addEventListener("click",function (){
+    repoInfo.classList.remove("hide");
+    singleRepoData.classList.add("hide");
+    viewRepo.classList.add("hide");
+});
+filterInput.addEventListener("input", function (e){
+    const inputText = e.target.value;
+    const repos = document.querySelectorAll(".repo");
+    const sizeText = inputText.toLowerCase();
+
+    for (const repo of repos) {
+        const repoSizeText = repo.innerText.toLowerCase();
+        if (repoSizeText.includes(sizeText)){
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+        }
+    }
+});
